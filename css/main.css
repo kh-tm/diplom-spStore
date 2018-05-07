@@ -1,0 +1,33 @@
+@import url("import/reset.css");
+
+@import url("import/common.css");
+
+@import url("import/header.css");
+
+
+@import url("import/search_row.css");
+@import url("import/card.css");
+@import url("import/reviews.css");
+
+
+@import url("import/card_page.css");
+@import url("import/similar_products.css");
+
+
+@import url("import/contacts_page.css");
+
+
+@import url("import/guarantee_page.css");
+
+
+@import url("import/paymentAndDelivery_page.css");
+
+
+@import url("import/catalog_page.css");
+
+
+
+@import url("import/basket_page.css");
+
+
+@import url("import/footer.css");

@@ -1,0 +1,36 @@
+.similar-products {
+    margin-bottom: 90px;
+}
+
+.similar-products__title {
+    display: block;
+    text-align: center;
+
+    margin-bottom: 20px;
+
+    font-size: 1.6rem;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+.similar-products__wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.similar-products__item {
+    display: flex;
+    flex-direction: column;
+
+    width: 230px;
+}
+
+.similar-products__img {
+    max-width: 100%;
+    margin-bottom: 10px;
+}
+
+.similar-products__name {
+    font-weight: normal;
+}

@@ -1,0 +1,30 @@
+.search-row {
+    margin-top: 40px;
+    display: flex;
+}
+
+.search-row__input {
+    border: 1px solid black;
+    padding: 5px 2px 5px 10px;
+    flex: 1;
+}
+
+.search-row__input:focus {
+    transition: box-shadow .3s;
+    border: 1px solid rgb(0, 64, 139);
+    box-shadow: 0 0 7px 0 rgba(0, 64, 139, 0.4);
+}
+
+.search-row__btn {
+    cursor: pointer;
+    transition-duration: 0.2s;
+    padding: 5px 10px;
+    min-width: 100px;
+    align-self: stretch;
+    border: 1px solid black;
+    border-left: none;
+}
+
+.search-row__btn:hover {
+    box-shadow: inset -2px 4px 5px 0 rgba(0,0,0,0.12), inset 0 -2px 5px 0 rgba(0,0,0,0.13);
+}

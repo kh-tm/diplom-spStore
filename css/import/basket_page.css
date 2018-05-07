@@ -1,0 +1,323 @@
+/* CUSTOM CHECKBOXES */
+
+/* Customize the label (the container) */
+.basket-page__container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.basket-page__container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.basket-page__checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.basket-page__container:hover input ~ .basket-page__checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.basket-page__container input:checked ~ .basket-page__checkmark {
+  background-color: rgba(233, 49, 193, 0.7);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.basket-page__checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.basket-page__container input:checked ~ .basket-page__checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.basket-page__container .basket-page__checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+
+
+
+
+
+.basket-page__table {
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 40px;
+}
+
+#basket-page__products--holder {
+    display: flex;
+    flex-direction: column;
+}
+
+.basket-page__table__row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    padding: 20px 0px;
+    border-bottom: 1px solid rgb(221, 221, 221);
+}
+
+.basket-page__table__photo {
+    padding: 0 5px;
+}
+
+.basket-page__table__photo img {
+    width: 120px;
+    max-width: 100%;
+}
+
+.basket-page__table__product-name {
+    flex: 4;
+    margin-left: 15px;
+
+    font-size: 1.2rem;
+    font-weight: normal;
+}
+
+.basket-page__table__price {
+    flex: 1;
+    color: rgb(91, 91, 91);
+}
+
+.basket-page__table__number {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 110px;
+    margin-left: 30px;
+
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.basket-page__table__number div {
+    cursor: pointer;
+    user-select: none;
+}
+
+.basket-page__table__headers .basket-page__table__number {
+    margin-left: auto;
+    font-weight: normal;
+    font-size: inherit;
+}
+
+.basket-page__table__number input {
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 3px;
+    width: 50px;
+
+    text-align: center;
+    font-weight: normal;
+    font-size: 1rem;
+}
+
+.basket-page__table__sum {
+    width: 120px;
+    margin-right: 50px;
+    margin-left: 50px;
+    text-align: right;
+}
+
+.basket-page__table__headers .basket-page__table__sum {
+    font-weight: normal;
+    margin-right: calc(50px + 24px);
+}
+
+.basket-page__table__delete div {
+    width: 24px;
+    height: 24px;
+    background-image: url(../../images/delete.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    cursor: pointer;
+}
+
+
+
+.basket-page__subtitle {
+    margin-top: 40px;
+    margin-bottom: 20px;
+
+    font-size: 1.6rem;
+    font-weight: normal;
+}
+
+.basket-page__container {
+    max-width: 600px;
+}
+
+.basket-page__delivery .basket-page__table__sum {
+    margin-left: auto;
+    margin-right: calc(50px + 24px);
+}
+
+
+.basket-page__final-sum {
+    border-bottom: none;
+}
+
+.basket-page__final-sum .basket-page__description {
+    margin-left: auto;
+    font-weight: normal;
+}
+
+.basket-page__final-sum .basket-page__table__sum {
+    margin-left: 50px;
+    margin-right: calc(50px + 24px);
+
+    font-weight: normal;
+    font-size: 1.2rem;
+}
+
+
+.basket-page__table input[type="submit"] {
+    display: block;
+    min-width: 100px;
+    margin-left: auto;
+    margin-top: 40px;
+    padding: 10px 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #e5e5e5;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    user-select: none;
+}
+
+.basket-page__table input[type="submit"]:hover {
+    color: #4a4ae0;
+    background-color: #eeeeee;
+    box-shadow: 0 12px 10px 0 rgba(0,0,0,0.17), 0 17px 30px 0 rgba(0,0,0,0.13);
+}
+
+
+/*    Для пустой корзины    */
+.basket-page__isEmpty {
+    font-size: 1.2rem;
+    font-weight: normal;
+}
+
+.basket-page__isEmpty a {
+    color: #0000FF;
+    font-weight: normal;
+}
+
+.basket-page__isEmpty a:hover {
+    text-decoration: underline;
+}
+
+
+
+
+
+
+
+/*    popup    */
+#basket-page__popup--holder {
+    visibility: hidden;
+    display: flex;
+    width: 100%;
+    min-height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow: hidden;
+    position: fixed;
+    top: 0px;
+}
+
+.basket-page__pupup-content {
+    display: flex;
+    flex-direction: column;
+    z-index: 5;
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px #000;
+    color: rgb(0, 0, 0);
+}
+
+.basket-page__pupup-title {
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+.basket-page__pupup-content p:not(.basket-page__pupup-title) {
+    display: flex;
+    flex-direction: row;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.basket-page__pupup-content p span {
+    margin-left: auto;
+    margin-right: 15px;
+    line-height: 36px;
+}
+
+.basket-page__pupup-content p input {
+    border: 1px solid black;
+    border-radius: 3px;
+    padding: 5px 2px 5px 10px;
+    width: 60%;
+}
+
+.basket-page__pupup-content p input:focus {
+    transition: box-shadow .3s;
+    border: 1px solid rgb(0, 64, 139);
+    box-shadow: 0 0 7px 0 rgba(0, 64, 139, 0.4);
+}
+
+.basket-page__pupup-content>input[type='submit'] {
+    cursor: pointer;
+    transition-duration: 0.2s;
+    padding: 5px 15px;
+    margin-top: 20px;
+    min-width: 100px;
+    margin-left: auto;
+    border-radius: 3px;
+
+    font-weight: normal;
+}
+
+.basket-page__pupup-content>input[type='submit']:hover {
+    box-shadow: inset -2px 4px 5px 0 rgba(0,0,0,0.12), inset 0 -2px 5px 0 rgba(0,0,0,0.13);
+}

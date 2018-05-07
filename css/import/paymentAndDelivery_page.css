@@ -1,0 +1,38 @@
+.PaD-page__info {
+    font-weight: normal;
+    padding-bottom: 40px;
+}
+
+.PaD-page__info u {
+    font-weight: bold;
+}
+
+.PaD-page__subtitle {
+    margin-top: 30px;
+
+    font-weight: bold;
+    font-size: 1.6rem;
+    color: rgb(37, 37, 37);
+}
+
+.PaD-page__info p,
+.PaD-page__info li,
+.PaD-page__info ul,
+.PaD-page__info ol {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.PaD-page__info ol li {
+    list-style: decimal;
+}
+
+.PaD-page__info ul li {
+    list-style: disc;
+    margin-left: 20px;
+}
+
+.PaD-page__cost {
+    float: right;
+    font-weight: bold;
+}

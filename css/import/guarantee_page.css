@@ -1,0 +1,38 @@
+.guarantee-page__info {
+    font-weight: normal;
+    padding-bottom: 40px;
+}
+
+.guarantee-page__info u {
+    font-weight: bold;
+}
+
+.guarantee-page__subtitle {
+    margin-top: 30px;
+
+    font-weight: bold;
+    font-size: 1.6rem;
+    color: rgb(37, 37, 37);
+}
+
+.guarantee-page__info p,
+.guarantee-page__info li,
+.guarantee-page__info ul,
+.guarantee-page__info ol {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.guarantee-page__info ol li {
+    list-style: decimal;
+}
+
+.guarantee-page__info ul li {
+    list-style: disc;
+    margin-left: 20px;
+}
+
+.guarantee-page__cost {
+    float: right;
+    font-weight: bold;
+}

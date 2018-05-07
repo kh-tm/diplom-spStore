@@ -1,0 +1,86 @@
+.card-page {
+    margin-top: 40px;
+    margin-bottom: 90px;
+}
+
+.card-page__top-content {
+    display: flex;
+    flex-direction: row;
+}
+
+.slider {
+    align-self: flex-start;
+    margin-left: 40px;
+    margin-right: 40px;
+    max-width: 350px;
+    border: 1px solid #ccc;
+}
+
+.slider__item img {
+    display: block;
+    max-width: 100%;
+}
+
+.slider-nav {
+    width: 80px
+}
+
+.slider-nav__item {
+    margin: 5px 0;
+    height: 100px;
+    cursor: pointer;
+    opacity: 0.6;
+    border: 1px solid #ccc;
+}
+
+.slider-nav__item:hover, .slider-nav__item.slick-current {
+    opacity: 1;
+}
+
+.slider-nav__item img {
+    display: block;
+    max-width: 100%;
+}
+
+.card-page__short-description {
+    flex: 1;
+}
+
+.card-page__title {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.card-page__cost {
+    margin-top: 15px;
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.card-page__text {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.card-page__text span {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, .8);
+}
+
+.card-page__to-basket {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #e5e5e5;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    user-select: none;
+}
+
+.card-page__to-basket:hover {
+    color: #4a4ae0;
+    background-color: #eeeeee;
+    box-shadow: 0 12px 10px 0 rgba(0,0,0,0.17), 0 17px 30px 0 rgba(0,0,0,0.13);
+}
