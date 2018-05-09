@@ -1,31 +1,6 @@
 'use strict';
 
 
-
-
-
-/*   запрос   */
-fetch('../sqlmaster.php')
-                .then((resp) => {
-                    console.log(resp);
-                    if (resp.status === 200) return resp.json();
-                })
-                .then((data) => console.log(data))
-                .catch(alert);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*   ОБЪЯВЛЕНИЕ ГЛОБАЛЬНЫХ ПЕРЕМЕННЫХ и ФУНКЦИЙ   */
 
 /*   функции для куки   */
@@ -106,68 +81,71 @@ function setCookie(name, value, options) {
 
 
 
-let phonesFromPHP = [
-{
-    id: '111',
-    manufacturerName: 'Xiaomi',
-    model:'Note 5',
-    price: 12000,
-    photos:'photos',
-    description:'description',
-    color:'black',
-    screenDiagonal: 5.5,
-    screenResolution:'fullHD+',
-    cameraResolution:'cameraResolution',
-    RAM:'2',
-    ROM:'32',
-    CPU:'CPU'
-},
-{
-    id: '222',
-    manufacturerName: 'Meizu',
-    model:'mx5',
-    price: 9000,
-    photos:'photos',
-    description:'description',
-    color:'white',
-    screenDiagonal:6,
-    screenResolution:'HD',
-    cameraResolution:'cameraResolution',
-    RAM:'3',
-    ROM:'32',
-    CPU:'CPU'
-},
-{
-    id: '333',
-    manufacturerName: 'OnePlus',
-    model:'5T',
-    price: 28800,
-    photos:'photos',
-    description:'description',
-    color:'gold',
-    screenDiagonal: 4.5,
-    screenResolution:'fullHD',
-    cameraResolution:'cameraResolution',
-    RAM:'4',
-    ROM:'64',
-    CPU:'CPU'
-},
-{
-    id: '444',
-    manufacturerName: 'Huawei',
-    model:'7x',
-    price: 19600,
-    photos:'photos',
-    description:'description',
-    color:'blue',
-    screenDiagonal:5,
-    screenResolution:'HD+',
-    cameraResolution:'cameraResolution',
-    RAM:'4',
-    ROM:'64',
-    CPU:'CPU'
-}
-];
+
+
+
+// let phonesFromPHP = [
+// {
+//     id: '111',
+//     manufacturerName: 'Xiaomi',
+//     model:'Note 5',
+//     price: 12000,
+//     photos:'photos',
+//     description:'description',
+//     color:'black',
+//     screenDiagonal: 5.5,
+//     screenResolution:'fullHD+',
+//     cameraResolution:'cameraResolution',
+//     RAM:'2',
+//     ROM:'32',
+//     CPU:'CPU'
+// },
+// {
+//     id: '222',
+//     manufacturerName: 'Meizu',
+//     model:'mx5',
+//     price: 9000,
+//     photos:'photos',
+//     description:'description',
+//     color:'white',
+//     screenDiagonal:6,
+//     screenResolution:'HD',
+//     cameraResolution:'cameraResolution',
+//     RAM:'3',
+//     ROM:'32',
+//     CPU:'CPU'
+// },
+// {
+//     id: '333',
+//     manufacturerName: 'OnePlus',
+//     model:'5T',
+//     price: 28800,
+//     photos:'photos',
+//     description:'description',
+//     color:'gold',
+//     screenDiagonal: 4.5,
+//     screenResolution:'fullHD',
+//     cameraResolution:'cameraResolution',
+//     RAM:'4',
+//     ROM:'64',
+//     CPU:'CPU'
+// },
+// {
+//     id: '444',
+//     manufacturerName: 'Huawei',
+//     model:'7x',
+//     price: 19600,
+//     photos:'photos',
+//     description:'description',
+//     color:'blue',
+//     screenDiagonal:5,
+//     screenResolution:'HD+',
+//     cameraResolution:'cameraResolution',
+//     RAM:'4',
+//     ROM:'64',
+//     CPU:'CPU'
+// }
+// ];
 
 var phonesJS = [];
 
@@ -178,11 +156,11 @@ class Smartphone {
         this.id = itemFromPHP.id;
         this.manufacturerName = itemFromPHP.manufacturerName;
         this.model = itemFromPHP.model;
-        this.price = itemFromPHP.price;
+        this.price = +itemFromPHP.price;
         this.photos = itemFromPHP.photos;
         this.description = itemFromPHP.description;
         this.color = itemFromPHP.color;
-        this.screenDiagonal = itemFromPHP.screenDiagonal;
+        this.screenDiagonal = +itemFromPHP.screenDiagonal;
         this.screenResolution = itemFromPHP.screenResolution;
         this.cameraResolution = itemFromPHP.cameraResolution;
         this.RAM = itemFromPHP.RAM;
@@ -233,28 +211,80 @@ function conversion(phonesFromPHP) {
         phonesJS[i] = new Smartphone(item);
     });
 }
-conversion(phonesFromPHP);
+
 /*   конец перевода массива   */
 
 
 
-/*   синхронизация корзины с куками после перезагрузки   */
-
-if (getCookie('basketPhones') != undefined) {
-    var basket = [];
-    let objFromCookie = JSON.parse(getCookie('basketPhones'));
-
-    for (let j = 0; j < phonesJS.length; j++) {
-        if (phonesJS[j].id in objFromCookie) {
-            basket.push(new SmartphoneBasket(phonesJS[j], objFromCookie[phonesJS[j].id]))
-        }
-    }
-} else {
-    var basket = [];
-}
-
-/*   конец синхронизации корзины с куками после перезагрузки   */
 
 var basketToCookie = {};
 
 /*   КОНЕЦ ОБЪЯВЛЕНИЯ ГЛОБАЛЬНЫХ ПЕРМЕННЫХ и ФУНКЦИЙ   */
+
+
+
+
+
+
+
+
+
+
+/*    запрос на актуальную базу характеристик телефонов (без фото)    */
+
+var basket = [];
+
+let promiseDB = new Promise((resolve, reject) => {
+
+    /*   запрос   */
+    fetch('../database/sqlmaster.php')
+                    .then( (resp) => {
+                        if (resp.status === 200) return resp.json();
+                        else console.log('Произошла ошибка при попытке запроса к базе')
+                    })
+                    .then( (data) => {
+                        conversion(data);
+                    } )
+                    .then( () => {
+                        /*   синхронизация корзины с куками после перезагрузки   */
+                        if (getCookie('basketPhones') != undefined) {
+
+                            basket = [];
+                            let objFromCookie = JSON.parse(getCookie('basketPhones'));
+
+                            for (let j = 0; j < phonesJS.length; j++) {
+                                if (phonesJS[j].id in objFromCookie) {
+                                    basket.push(new SmartphoneBasket(phonesJS[j], objFromCookie[phonesJS[j].id]))
+                                }
+                            }
+                        } else {
+                            basket = [];
+                        }
+
+                        /*   конец синхронизации корзины с куками после перезагрузки   */
+                    } )
+                    .then( () => {
+                        console.log('promiseDB success');
+                        resolve('success');
+                    })
+                    .catch( (err) => console.error(err) );
+
+});
+
+
+let promisePhotos = new Promise((resolve, reject) => {
+
+    /*   запрос   */
+    fetch('../database/scandir.php')
+                    .then( (resp) => {
+                        if (resp.status === 200) return resp.json();
+                        else console.log('Произошла ошибка при попытке запроса к базе')
+                    })
+                    .then( (data) => {
+                        console.log('promisePhotos success');
+                        console.log(data);
+                        resolve(data);
+                    })
+                    .catch( (err) => console.error(err) );
+
+});

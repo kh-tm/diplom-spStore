@@ -3,8 +3,8 @@
 include_once "include/head.php";
 
 /*    создает подключение к базе    */
-include_once "database/linkdb.php";
-
+// include_once "database/linkdb.php";
+// include_once "database/scandir.php";
 
 include_once "include/header.php";
 

@@ -20,33 +20,44 @@
         }
 
     }
-    indexPageRendering(phonesJS);
+    // indexPageRendering(phonesJS);
 
     /*   index end   */
 
 /*   конец шаблонизатора   */
 
-document.querySelector(".card-wrapper").addEventListener('click', function(event){
-    var target = event.target;
 
 
-    while (!(target.classList.contains("card-wrapper"))
-            &&
-            !(target == document.body)) {
-        if (target.hasAttribute('phoneid')) {
-            let phoneId = target.getAttribute('phoneId');
+promiseDB
+    .then(() => {
+        indexPageRendering(phonesJS);
 
-            phonesJS.forEach(function(item, i, arr) {
-                if (phonesJS[i].id == phoneId) {
-                    phonesJS[i].addToBasket();
+        /*      В КОРЗИНУ        */
+        document.querySelector(".card-wrapper").addEventListener('click', function(event){
+            var target = event.target;
+
+
+            while (!(target.classList.contains("card-wrapper"))
+                    &&
+                    !(target == document.body)) {
+                if (target.hasAttribute('phoneid')) {
+                    let phoneId = target.getAttribute('phoneId');
+
+                    phonesJS.forEach(function(item, i, arr) {
+                        if (phonesJS[i].id == phoneId) {
+                            phonesJS[i].addToBasket();
+                            return;
+                        }
+                    });
                     return;
                 }
-            });
-            return;
-        }
-        target = target.parentNode;
+                target = target.parentNode;
+            }
+        })
     }
-})
+);
+
+
 
 
 
@@ -101,7 +112,6 @@ function helpFlexStyle(phones) {
     let wrapper = document.querySelector('.card-wrapper');
     for (let i = 2; i <= restLength+1; i++) {
         let currentElem = wrapper.childNodes[wrapper.childNodes.length - i];
-        console.log(currentElem);
         currentElem.style.alignSelf = 'flex-start';
     }
 }
