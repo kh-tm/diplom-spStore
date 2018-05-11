@@ -1,7 +1,7 @@
 'use strict';
 
 
-promiseDB
+Promise.all([promiseDB, promisePhotos])
     .then(() => {
         /*  LoDash шаблонизатор */
 

@@ -3,6 +3,39 @@
 
 /*   ОБЪЯВЛЕНИЕ ГЛОБАЛЬНЫХ ПЕРЕМЕННЫХ и ФУНКЦИЙ   */
 
+
+/*   функция замены урла   */
+function setLocation(curLoc){
+    try {
+      history.pushState(null, null, curLoc);
+      return;
+    } catch(e) {}
+    location.hash = '#' + curLoc;
+}
+/*   конец функции замены урла   */
+
+
+/*   hand-made routing   */
+
+function renderFromUrl() {
+    if (initialUrl.query.phoneid) {
+        let phoneIsFound = false;
+        for(let phone of phonesJS) {
+            if(phone.id == initialUrl.query.phoneid) {
+                phoneIsFound = true;
+                console.log('Отрисовал страницу телефона, проверяй!');
+                phonePageRendering(phone);
+            }
+        }
+        if (!phoneIsFound) console.log('Ошибка! Не найден запрашиваемый ID'); /*отрисовать 404 pageNotFoundRendering()*/;
+    } else {
+        indexPageRendering(phonesJS);
+    }
+}
+
+/*   конец роутинга   */
+
+
 /*   функции для куки   */
 
 // возвращает cookie с именем name, если есть, если нет, то undefined
@@ -152,7 +185,7 @@ var phonesJS = [];
 
 
 class Smartphone {
-    constructor(itemFromPHP) {
+    constructor(itemFromPHP, imagesURL) {
         this.id = itemFromPHP.id;
         this.manufacturerName = itemFromPHP.manufacturerName;
         this.model = itemFromPHP.model;
@@ -166,6 +199,8 @@ class Smartphone {
         this.RAM = itemFromPHP.RAM;
         this.ROM = itemFromPHP.ROM;
         this.CPU = itemFromPHP.CPU;
+
+        this.photos = this.photos ? this.photos : imagesURL[this.id];
     }
     get fullName() {
         return `${this.manufacturerName} ${this.model} ${this.color} ${this.RAM}/${this.ROM}`
@@ -206,9 +241,9 @@ class SmartphoneBasket extends Smartphone {
 
 /*   массив из php перевести сюда   */
 
-function conversion(phonesFromPHP) {
+function conversion(phonesFromPHP, imagesURL) {
     phonesFromPHP.forEach(function(item, i, arr) {
-        phonesJS[i] = new Smartphone(item);
+        phonesJS[i] = new Smartphone(item, imagesURL);
     });
 }
 
@@ -243,7 +278,11 @@ let promiseDB = new Promise((resolve, reject) => {
                         else console.log('Произошла ошибка при попытке запроса к базе')
                     })
                     .then( (data) => {
-                        conversion(data);
+
+                        promisePhotos
+                                    .then( (imagesURL) => {
+                                        conversion(data, imagesURL);
+                                    } );
                     } )
                     .then( () => {
                         /*   синхронизация корзины с куками после перезагрузки   */
@@ -264,7 +303,6 @@ let promiseDB = new Promise((resolve, reject) => {
                         /*   конец синхронизации корзины с куками после перезагрузки   */
                     } )
                     .then( () => {
-                        console.log('promiseDB success');
                         resolve('success');
                     })
                     .catch( (err) => console.error(err) );
@@ -281,8 +319,6 @@ let promisePhotos = new Promise((resolve, reject) => {
                         else console.log('Произошла ошибка при попытке запроса к базе')
                     })
                     .then( (data) => {
-                        console.log('promisePhotos success');
-                        console.log(data);
                         resolve(data);
                     })
                     .catch( (err) => console.error(err) );

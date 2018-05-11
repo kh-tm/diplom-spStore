@@ -60,6 +60,7 @@ include_once "include/similar_products.php";
 
 include_once "include/footer.php";
 
+include_once "include/includeJs.php";
 ?>
 
 </body>

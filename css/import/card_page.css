@@ -13,7 +13,7 @@
     margin-left: 40px;
     margin-right: 40px;
     max-width: 350px;
-    border: 1px solid #ccc;
+    max-height: 600px;
 }
 
 .slider__item img {

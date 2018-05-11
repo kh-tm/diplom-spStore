@@ -18,7 +18,7 @@ include_once "include/header.php";
         <% for(var i = 0; i < list.length; i++) { %>
             <div class="card">
                 <a href="card_page.php">
-                    <img class="card__image" src="images/photos/2016092801550411tq8oxpd.jpg"></img>
+                    <img class="card__image" src="<%= 'images/photos/' + list[i].id + '/' + list[i].photos[0] %>"></img>
                 </a>
                 <div class="card__name"><%=list[i].fullName%></div>
                 <div class="card__cost"><%=list[i].price  + ' ₽'%></div>

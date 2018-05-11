@@ -16,13 +16,13 @@
         <ul class="header__main-nav">
             <a href="catalog_page.php">
                 <li class="main-nav__element">Каталог товаров
-                    <ul class="lvl-two">
+                    <!-- <ul class="lvl-two">
                         <li class="lvl-two_element">Samsung</li>
                         <li class="lvl-two_element">Apple</li>
                         <li class="lvl-two_element">Xiaomi</li>
                         <li class="lvl-two_element">Другие</li>
                         <li class="lvl-two_element">Аксессуары</li>
-                    </ul>
+                    </ul> -->
                 </li>
              </a>
             <a href="guarantee_page.php">

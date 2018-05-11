@@ -1,7 +1,7 @@
 'use strict';
 
 
-promiseDB
+Promise.all([promiseDB, promisePhotos])
     .then(() => {
         let totalAmount;//summa
         let mainForm = document.forms.basketPageProducts;
