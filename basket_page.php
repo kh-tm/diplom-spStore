@@ -37,7 +37,7 @@ include_once "include/header.php";
             <div phoneId="<%=list[i].id%>" class="basket-page__table__row basket-page__table__product">
                 <div class="basket-page__table__photo">
                     <a href="card_page.php">
-                        <img src="images\photos\2016092801550411tq8oxpd.JPG" alt="">
+                        <img src="<%= 'images/photos/' + list[i].id + '/' + list[i].photos[0] %>"  alt="">
                     </a>
                 </div>
                 <div class="basket-page__table__product-name">
@@ -60,31 +60,6 @@ include_once "include/header.php";
             </div>
             <% } %>
         </script>
-
-        <!-- <div class="basket-page__table__row basket-page__table__product">
-            <div class="basket-page__table__photo">
-                <a href="card_page.php">
-                    <img src="images\photos\2016092801550411tq8oxpd.JPG" alt="">
-                </a>
-            </div>
-            <div class="basket-page__table__product-name">
-                <a href="card_page.php">Xiaomi Redmi Note 4</a>
-            </div>
-            <div class="basket-page__table__price">
-                12 900 ₽
-            </div>
-            <div class="basket-page__table__number">
-                <div class="minus">–</div>
-                <input type="text" name="basket-page__number" value="1">
-                <div class="plus">+</div>
-            </div>
-            <div class="basket-page__table__sum">
-                12 900 ₽
-            </div>
-            <div class="basket-page__table__delete">
-                <div></div>
-            </div>
-        </div> -->
 
         <div class="basket-page__delivery">
             <h2 class="basket-page__subtitle">Выберите способ доставки</h2>
@@ -131,9 +106,6 @@ include_once "include/header.php";
                 </div>
             </script>
 
-            <!-- <div class="basket-page__table__sum">
-                10000 ₽
-            </div> -->
         </div>
 
         <input name="submit" type="submit" value="Оформить заказ">

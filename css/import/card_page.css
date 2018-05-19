@@ -79,8 +79,14 @@
     user-select: none;
 }
 
-.card-page__to-basket:hover {
+.card-page__to-basket:not(.card-page__to-basket--added):hover {
     color: #4a4ae0;
     background-color: #eeeeee;
     box-shadow: 0 12px 10px 0 rgba(0,0,0,0.17), 0 17px 30px 0 rgba(0,0,0,0.13);
+}
+
+.card-page__to-basket--added {
+    transition: background-color .5s;
+    background-color: rgb(145, 200, 170);
+    cursor: auto;
 }

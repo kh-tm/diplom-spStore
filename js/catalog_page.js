@@ -144,11 +144,15 @@ Promise.all([promiseDB, promisePhotos])
                     sortedPhones.push(item);
                 }
             });
-            console.log(sortForm.priceTo.value == '')
 
-            document.getElementById('catalog-page__products--holder').innerHTML = tmpl({
-              list: sortedPhones
-            });
+            if(sortedPhones.length) {
+                document.getElementById('catalog-page__products--holder').innerHTML = tmpl({
+                  list: sortedPhones
+                });
+            } else {
+                document.querySelector('#catalog-page__products--holder').innerHTML = 'Товары не найдены. Попробуйте изменить фильтры.'
+            }
+
         });
 
         /*   конец сортировки по форме   */

@@ -8,7 +8,6 @@ Promise.all([promiseDB, promisePhotos])
         let basketPageNumber = document.querySelectorAll('input[name="basket-page__number"]');
 
         basketPageNumber.forEach(function(item, i, arr) {
-            console.log(i);
             item.onkeypress = function(e) {
 
                 e = e || event;
@@ -42,6 +41,7 @@ Promise.all([promiseDB, promisePhotos])
             }
         });
 
+        //подсчет суммы к оплате
         function counting() {
             let currentAmount = 0;
             basket.forEach(function(item, i, arr) {
@@ -107,7 +107,7 @@ Promise.all([promiseDB, promisePhotos])
         /*   конец шаблонизатора   */
 
 
-
+        //нажатие на крестик
         document.querySelector("#basket-page__products--holder").addEventListener('click', function(event){
             let target = event.target;
             if ((target.classList.contains("basket-page__table__delete"))
@@ -210,13 +210,13 @@ Promise.all([promiseDB, promisePhotos])
             showPopup();
         }
 
-            /*   lodash создание элементов   */
-            let tmpl = document.getElementById('basket-page__popup--template').innerHTML.trim();
-            tmpl = _.template(tmpl);
+        /*   lodash создание элементов для поп-апа с формой отправки данных  */
+        let tmpl = document.getElementById('basket-page__popup--template').innerHTML.trim();
+        tmpl = _.template(tmpl);
 
 
-            document.getElementById('basket-page__popup--holder').innerHTML = tmpl({});
-            /*   конец lodash создание элементов   */
+        document.getElementById('basket-page__popup--holder').innerHTML = tmpl({});
+        /*   конец lodash создание элементов для поп-апа с формой отправки данных   */
 
 
         function showPopup() {
@@ -224,8 +224,14 @@ Promise.all([promiseDB, promisePhotos])
             document.getElementById('basket-page__popup--holder').style.display = '';
         }
 
+        //отправка данных о заказе и все действия после этого
         document.querySelector('.basket-page__pupup-content>input[type="submit"]').onclick = function(event) {
             event.preventDefault();
+
+            //удалить из корзины и из куки
+            basket.splice(0, basket.length);
+            updateCookie();
+
             let popupForm = document.forms.basketContactDetails;
             if(popupForm.email.value == '') {
                 popupForm.email.oninput = function() {
@@ -253,7 +259,7 @@ Promise.all([promiseDB, promisePhotos])
             }
             if (popupForm.email.value && popupForm.phoneNumber.value && popupForm.address.value) {
                 event.target.style.backgroundColor = 'rgb(108, 200, 109)';
-                event.target.value = 'Данные успешно отправлены';
+                event.target.value = 'Спасибо за заказ! Наш оператор свяжется с Вами в ближайшее время для уточнения деталей заказа.';
                 event.target.setAttribute('disabled', 'disabled');
 
 

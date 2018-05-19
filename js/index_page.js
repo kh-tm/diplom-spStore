@@ -43,15 +43,16 @@ const initialUrl = new Url();
     /*   phone`s page  */
 
     function phonePageRendering(thisPhone) {
+        let recommendedList = generateRecommendedList(thisPhone.id);
         let tmpl = `<div class="card-page__top-content">
 
             <div class="slider-nav">
-                <% for(var i = 0; i < list.photos.length; i++) { %>
+                <% for(let i = 0; i < list.photos.length; i++) { %>
                     <div class="slider-nav__item"><img src="<%= 'images/photos/' + list.id + '/' + list.photos[i] %>"></div>
                 <% } %>
             </div>
             <div class="slider">
-                <% for(var i = 0; i < list.photos.length; i++) { %>
+                <% for(let i = 0; i < list.photos.length; i++) { %>
                     <div class="slider__item"><img src="<%= 'images/photos/' + list.id + '/' + list.photos[i] %>"></div>
                 <% } %>
             </div>
@@ -68,16 +69,31 @@ const initialUrl = new Url();
                     <br><span>Фотокамера (Мп):</span> <%= list.cameraResolution %>
                     <br><span>Процессор:</span> <%= list.CPU %>
                 </p>
-                <div class="card-page__to-basket">
+                <div class="card-page__to-basket" phoneId="<%= list.id %>">
                     Добавить в корзину
                 </div>
             </div>
-        </div>`;
+        </div>
+
+        <section class="similar-products">
+            <h3 class="similar-products__title">Похожие смартфоны</h3>
+            <div class="similar-products__wrapper">
+                <% for(let i = 0; i < 3; i++) { %>
+                    <a href="card_page.php" class="similar-products__item">
+                        <img src="<%= 'images/photos/' + similar[i].id + '/' + similar[i].photos[0] %>" alt="" class="similar-products__img">
+                        <span class="similar-products__name"><%= similar[i].fullName %></span>
+                        <span class="similar-products__cost"><%= similar[i].price %> ₽</span>
+                    </a>
+                <% } %>
+            </div>
+        </section>
+        `;
         tmpl = _.template(tmpl);
 
 
         document.getElementById('card-page-wrapper--holder').innerHTML = tmpl({
-          list: thisPhone
+          list: thisPhone,
+          similar: recommendedList
         });
 
     }
@@ -97,6 +113,7 @@ let promisePhoneRendered = new Promise((resolve, reject) => {
                 resolve('phone page is rendered');//тут включаются скрипты slick и zoomjs
 
                 /*      В КОРЗИНУ        */
+                // с главной
                 if(document.querySelector(".card-wrapper")) {
                     document.querySelector(".card-wrapper").addEventListener('click', function(event){
                         var target = event.target;
@@ -121,8 +138,24 @@ let promisePhoneRendered = new Promise((resolve, reject) => {
                     });
                 }
 
-                /*   конец 'в корзину'   */
+                //со страницы товара
+                if(document.querySelector(".card-page__to-basket")) {
+                    document.querySelector(".card-page__to-basket").addEventListener('click', function(event){
+                        if(!document.querySelector(".card-page__to-basket").classList.contains('card-page__to-basket--added')) {
+                            let phoneId = event.target.getAttribute('phoneId');
 
+                            phonesJS.forEach(function(item, i, arr) {
+                                if (phonesJS[i].id == phoneId) {
+                                    phonesJS[i].addToBasket();
+                                    event.target.classList.add('card-page__to-basket--added');
+                                    event.target.innerHTML = 'Добавлено в корзину';
+                                    return;
+                                }
+                            });
+                        }
+                    });
+                }
+                /*   конец 'в корзину'   */
             });
 
 });
@@ -160,9 +193,9 @@ document.querySelector('.search-row__input').addEventListener('input', function(
     let foundPhones = [];
     event.preventDefault();
     if (document.querySelector('.search-row__input').value.trim()) {
-        document.querySelector('.card__title').innerHTML = 'Результат поиска';
         foundPhones = search(document.querySelector('.search-row__input').value, phonesJS);
         indexPageRendering(foundPhones);
+        document.querySelector('.card__title').innerHTML = 'Результат поиска';
     } else {
         renderFromUrl();
     }
@@ -175,16 +208,41 @@ document.querySelector('.search-row__input').addEventListener('input', function(
 /*   конец ПОИСКА   */
 
 
+/*   генерация рекомендуемого списка   */
+function generateRecommendedList(phoneId, initialList = phonesJS) {
+    let sortedList = initialList.slice(0, initialList.length);
+    let phoneItem;
+    sortedList.forEach(function(item, i, arr) {
+        if (sortedList[i].id == phoneId) {
+            phoneItem = sortedList[i];
+            sortedList.splice(i, 1);
+            return;
+        }
+    });
 
-/*   css для последней строки   */
+    sortedList.sort(function(a, b) {
+        console.log( (phoneItem.price - a.price));
+        if (Math.abs(phoneItem.price - a.price) > Math.abs(phoneItem.price - b.price)) return 1;
+        if (Math.abs(phoneItem.price - a.price) < Math.abs(phoneItem.price - b.price)) return -1;
+        return 0;
+    });
 
-function helpFlexStyle(phones) {
-    let restLength = phones.length % 4;
-    let wrapper = document.querySelector('.card-wrapper');
-    for (let i = 2; i <= restLength+1; i++) {
-        let currentElem = wrapper.childNodes[wrapper.childNodes.length - i];
-        currentElem.style.alignSelf = 'flex-start';
-    }
+    console.log(sortedList);
+    return sortedList.slice(0, 10);
 }
 
-/*   конец стилей для последней строки   */
+/*   конец генерации рекомендуемого списка   */
+
+
+// /*   css для последней строки   */
+//
+// function helpFlexStyle(phones) {
+//     let restLength = phones.length % 4;
+//     let wrapper = document.querySelector('.card-wrapper');
+//     for (let i = 2; i <= restLength+1; i++) {
+//         let currentElem = wrapper.childNodes[wrapper.childNodes.length - i];
+//         currentElem.style.alignSelf = 'stretch';
+//     }
+// }
+//
+// /*   конец стилей для последней строки   */

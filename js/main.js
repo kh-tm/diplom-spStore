@@ -25,6 +25,11 @@ function renderFromUrl() {
                 phoneIsFound = true;
                 console.log('Отрисовал страницу телефона, проверяй!');
                 phonePageRendering(phone);
+
+                if(document.querySelector('section.reviews')) {
+                    let el = document.querySelector('section.reviews');
+                    el.parentNode.removeChild(el);
+                }
             }
         }
         if (!phoneIsFound) console.log('Ошибка! Не найден запрашиваемый ID'); /*отрисовать 404 pageNotFoundRendering()*/;
@@ -115,71 +120,6 @@ function setCookie(name, value, options) {
 
 
 
-
-
-// let phonesFromPHP = [
-// {
-//     id: '111',
-//     manufacturerName: 'Xiaomi',
-//     model:'Note 5',
-//     price: 12000,
-//     photos:'photos',
-//     description:'description',
-//     color:'black',
-//     screenDiagonal: 5.5,
-//     screenResolution:'fullHD+',
-//     cameraResolution:'cameraResolution',
-//     RAM:'2',
-//     ROM:'32',
-//     CPU:'CPU'
-// },
-// {
-//     id: '222',
-//     manufacturerName: 'Meizu',
-//     model:'mx5',
-//     price: 9000,
-//     photos:'photos',
-//     description:'description',
-//     color:'white',
-//     screenDiagonal:6,
-//     screenResolution:'HD',
-//     cameraResolution:'cameraResolution',
-//     RAM:'3',
-//     ROM:'32',
-//     CPU:'CPU'
-// },
-// {
-//     id: '333',
-//     manufacturerName: 'OnePlus',
-//     model:'5T',
-//     price: 28800,
-//     photos:'photos',
-//     description:'description',
-//     color:'gold',
-//     screenDiagonal: 4.5,
-//     screenResolution:'fullHD',
-//     cameraResolution:'cameraResolution',
-//     RAM:'4',
-//     ROM:'64',
-//     CPU:'CPU'
-// },
-// {
-//     id: '444',
-//     manufacturerName: 'Huawei',
-//     model:'7x',
-//     price: 19600,
-//     photos:'photos',
-//     description:'description',
-//     color:'blue',
-//     screenDiagonal:5,
-//     screenResolution:'HD+',
-//     cameraResolution:'cameraResolution',
-//     RAM:'4',
-//     ROM:'64',
-//     CPU:'CPU'
-// }
-// ];
-
 var phonesJS = [];
 
 
@@ -199,6 +139,7 @@ class Smartphone {
         this.RAM = itemFromPHP.RAM;
         this.ROM = itemFromPHP.ROM;
         this.CPU = itemFromPHP.CPU;
+        this.stock = +itemFromPHP.count;
 
         this.photos = this.photos ? this.photos : imagesURL[this.id];
     }
@@ -278,33 +219,32 @@ let promiseDB = new Promise((resolve, reject) => {
                         else console.log('Произошла ошибка при попытке запроса к базе')
                     })
                     .then( (data) => {
-
                         promisePhotos
                                     .then( (imagesURL) => {
                                         conversion(data, imagesURL);
-                                    } );
+                                    } )
+                                    .then( () => {
+                                        /*   синхронизация корзины с куками после перезагрузки   */
+                                        if (getCookie('basketPhones') != undefined) {
+
+                                            basket = [];
+                                            let objFromCookie = JSON.parse(getCookie('basketPhones'));
+
+                                            for (let j = 0; j < phonesJS.length; j++) {
+                                                if (phonesJS[j].id in objFromCookie) {
+                                                    basket.push(new SmartphoneBasket(phonesJS[j], objFromCookie[phonesJS[j].id]));
+                                                }
+                                            }
+                                        } else {
+                                            basket = [];
+                                        }
+
+                                        /*   конец синхронизации корзины с куками после перезагрузки   */
+                                    } )
+                                    .then( () => {
+                                        resolve('success');
+                                    });
                     } )
-                    .then( () => {
-                        /*   синхронизация корзины с куками после перезагрузки   */
-                        if (getCookie('basketPhones') != undefined) {
-
-                            basket = [];
-                            let objFromCookie = JSON.parse(getCookie('basketPhones'));
-
-                            for (let j = 0; j < phonesJS.length; j++) {
-                                if (phonesJS[j].id in objFromCookie) {
-                                    basket.push(new SmartphoneBasket(phonesJS[j], objFromCookie[phonesJS[j].id]))
-                                }
-                            }
-                        } else {
-                            basket = [];
-                        }
-
-                        /*   конец синхронизации корзины с куками после перезагрузки   */
-                    } )
-                    .then( () => {
-                        resolve('success');
-                    })
                     .catch( (err) => console.error(err) );
 
 });
