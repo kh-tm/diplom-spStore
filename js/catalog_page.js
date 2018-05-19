@@ -167,13 +167,13 @@ Promise.all([promiseDB, promisePhotos])
             while (!(target.classList.contains("catalog-page__products"))
                     &&
                     !(target == document.body)) {
-                if (target.hasAttribute('phoneid')) {
+                if (target.hasAttribute('phoneid')
+                    && !target.childNodes[1].classList.contains("card__buy__text--disabled")) {
                     let phoneId = target.getAttribute('phoneId');
 
                     phonesJS.forEach(function(item, i, arr) {
                         if (phonesJS[i].id == phoneId) {
                             phonesJS[i].addToBasket();
-                            console.log('basket.length = ' + basket.length);
                             return;
                         }
                     });

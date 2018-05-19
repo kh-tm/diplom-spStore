@@ -67,6 +67,11 @@
     visibility: hidden;
 }
 
+.card__buy__text--disabled {
+    visibility: visible;
+    cursor: auto;
+}
+
 .card:hover .card__buy__text {
     visibility: visible;
 }

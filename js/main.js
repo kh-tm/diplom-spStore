@@ -23,7 +23,6 @@ function renderFromUrl() {
         for(let phone of phonesJS) {
             if(phone.id == initialUrl.query.phoneid) {
                 phoneIsFound = true;
-                console.log('Отрисовал страницу телефона, проверяй!');
                 phonePageRendering(phone);
 
                 if(document.querySelector('section.reviews')) {

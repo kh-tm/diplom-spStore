@@ -17,8 +17,12 @@ const initialUrl = new Url();
                 <div class="card__name"><%=list[i].fullName%></div>
                 <div class="card__cost"><%=list[i].price  + ' ₽'%></div>
                 <div class="card__buy" phoneId="<%=list[i].id%>">
-                    <div class="card__buy__text">В корзину</div>
-                    <div class="card__buy__icon"></div>
+                    <% if(list[i].stock != 0) { %>
+                        <div class="card__buy__text">В корзину</div>
+                        <div class="card__buy__icon"></div>
+                    <% } else { %>
+                        <div class="card__buy__text card__buy__text--disabled">Нет в наличии</div>
+                    <% } %>
                 </div>
             </div>
         <% } %>
@@ -69,9 +73,15 @@ const initialUrl = new Url();
                     <br><span>Фотокамера (Мп):</span> <%= list.cameraResolution %>
                     <br><span>Процессор:</span> <%= list.CPU %>
                 </p>
-                <div class="card-page__to-basket" phoneId="<%= list.id %>">
-                    Добавить в корзину
-                </div>
+                <% if(list.stock != 0) { %>
+                    <div class="card-page__to-basket" phoneId="<%= list.id %>">
+                        Добавить в корзину
+                    </div>
+                <% } else { %>
+                    <div class="card-page__to-basket card-page__to-basket--disabled" phoneId="<%= list.id %>">
+                        Нет в наличии
+                    </div>
+                <% } %>
             </div>
         </div>
 
@@ -79,7 +89,7 @@ const initialUrl = new Url();
             <h3 class="similar-products__title">Похожие смартфоны</h3>
             <div class="similar-products__wrapper">
                 <% for(let i = 0; i < 3; i++) { %>
-                    <a href="card_page.php" class="similar-products__item">
+                    <a href="./?phoneid=<%= similar[i].id %>" class="similar-products__item">
                         <img src="<%= 'images/photos/' + similar[i].id + '/' + similar[i].photos[0] %>" alt="" class="similar-products__img">
                         <span class="similar-products__name"><%= similar[i].fullName %></span>
                         <span class="similar-products__cost"><%= similar[i].price %> ₽</span>
@@ -119,11 +129,13 @@ let promisePhoneRendered = new Promise((resolve, reject) => {
                         var target = event.target;
 
 
-                        while (!(target.classList.contains("card-wrapper"))
+                        while (!target.classList.contains("card-wrapper")
                                 &&
                                 !(target == document.body)) {
-                            if (target.hasAttribute('phoneid')) {
+                            if (target.hasAttribute('phoneid')
+                                && !target.childNodes[1].classList.contains("card__buy__text--disabled")) {
                                 let phoneId = target.getAttribute('phoneId');
+                                console.log(target.childNodes[1]);
 
                                 phonesJS.forEach(function(item, i, arr) {
                                     if (phonesJS[i].id == phoneId) {
@@ -141,7 +153,8 @@ let promisePhoneRendered = new Promise((resolve, reject) => {
                 //со страницы товара
                 if(document.querySelector(".card-page__to-basket")) {
                     document.querySelector(".card-page__to-basket").addEventListener('click', function(event){
-                        if(!document.querySelector(".card-page__to-basket").classList.contains('card-page__to-basket--added')) {
+                        if(!document.querySelector(".card-page__to-basket").classList.contains('card-page__to-basket--added')
+                            && !document.querySelector(".card-page__to-basket").classList.contains("card-page__to-basket--disabled")) {
                             let phoneId = event.target.getAttribute('phoneId');
 
                             phonesJS.forEach(function(item, i, arr) {
@@ -221,13 +234,11 @@ function generateRecommendedList(phoneId, initialList = phonesJS) {
     });
 
     sortedList.sort(function(a, b) {
-        console.log( (phoneItem.price - a.price));
         if (Math.abs(phoneItem.price - a.price) > Math.abs(phoneItem.price - b.price)) return 1;
         if (Math.abs(phoneItem.price - a.price) < Math.abs(phoneItem.price - b.price)) return -1;
         return 0;
     });
 
-    console.log(sortedList);
     return sortedList.slice(0, 10);
 }
 

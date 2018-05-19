@@ -17,14 +17,18 @@ include_once "include/header.php";
         <div class="catalog-page__products">
         <% for(var i = 0; i < list.length; i++) { %>
             <div class="card">
-                <a href="card_page.php">
+                <a href="./?phoneid=<%= list[i].id %>">
                     <img class="card__image" src="<%= 'images/photos/' + list[i].id + '/' + list[i].photos[0] %>"></img>
                 </a>
                 <div class="card__name"><%=list[i].fullName%></div>
                 <div class="card__cost"><%=list[i].price  + ' ₽'%></div>
                 <div class="card__buy" phoneId="<%=list[i].id%>">
-                    <div class="card__buy__text">В корзину</div>
-                    <div class="card__buy__icon"></div>
+                    <% if(list[i].stock != 0) { %>
+                        <div class="card__buy__text">В корзину</div>
+                        <div class="card__buy__icon"></div>
+                    <% } else { %>
+                        <div class="card__buy__text card__buy__text--disabled">Нет в наличии</div>
+                    <% } %>
                 </div>
             </div>
         <% } %>
