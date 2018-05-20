@@ -34,11 +34,12 @@ const initialUrl = new Url();
           list: thisObject
         });
 
-        try {
-            helpFlexStyle(thisObject);
-        } catch (e) {
-            console.log(e);
+        /*      В КОРЗИНУ        */
+        // с главной
+        if(document.querySelector(".card-wrapper")) {
+            document.querySelector(".card-wrapper").addEventListener('click', addToBasketFromMainPage);
         }
+        /*   конец 'в корзину'   */
 
     }
 
@@ -106,13 +107,19 @@ const initialUrl = new Url();
           similar: recommendedList
         });
 
+        /*      В КОРЗИНУ        */
+        //со страницы товара
+        if(document.querySelector(".card-page__to-basket")) {
+            document.querySelector(".card-page__to-basket").addEventListener('click', addToBasketFromPhonePage);
+        }
+        /*   конец 'в корзину'   */
+
     }
     // indexPageRendering(phonesJS);
 
     /*   phone`s page end   */
 
 /*   конец шаблонизатора   */
-
 
 let promisePhoneRendered = new Promise((resolve, reject) => {
     Promise.all([promiseDB, promisePhotos])
@@ -121,61 +128,58 @@ let promisePhoneRendered = new Promise((resolve, reject) => {
                 renderFromUrl();
 
                 resolve('phone page is rendered');//тут включаются скрипты slick и zoomjs
-
-                /*      В КОРЗИНУ        */
-                // с главной
-                if(document.querySelector(".card-wrapper")) {
-                    document.querySelector(".card-wrapper").addEventListener('click', function(event){
-                        var target = event.target;
-
-
-                        while (!target.classList.contains("card-wrapper")
-                                &&
-                                !(target == document.body)) {
-                            if (target.hasAttribute('phoneid')
-                                && !target.childNodes[1].classList.contains("card__buy__text--disabled")) {
-                                let phoneId = target.getAttribute('phoneId');
-                                console.log(target.childNodes[1]);
-
-                                phonesJS.forEach(function(item, i, arr) {
-                                    if (phonesJS[i].id == phoneId) {
-                                        phonesJS[i].addToBasket();
-                                        return;
-                                    }
-                                });
-                                return;
-                            }
-                            target = target.parentNode;
-                        }
-                    });
-                }
-
-                //со страницы товара
-                if(document.querySelector(".card-page__to-basket")) {
-                    document.querySelector(".card-page__to-basket").addEventListener('click', function(event){
-                        if(!document.querySelector(".card-page__to-basket").classList.contains('card-page__to-basket--added')
-                            && !document.querySelector(".card-page__to-basket").classList.contains("card-page__to-basket--disabled")) {
-                            let phoneId = event.target.getAttribute('phoneId');
-
-                            phonesJS.forEach(function(item, i, arr) {
-                                if (phonesJS[i].id == phoneId) {
-                                    phonesJS[i].addToBasket();
-                                    event.target.classList.add('card-page__to-basket--added');
-                                    event.target.innerHTML = 'Добавлено в корзину';
-                                    return;
-                                }
-                            });
-                        }
-                    });
-                }
-                /*   конец 'в корзину'   */
             });
 
 });
 
 
 
+/*   для события клика "добавить в корзину" с главной  */
+function addToBasketFromMainPage(myevent) {
+    var target = myevent.target;
 
+
+    while (!target.classList.contains("card-wrapper")
+            &&
+            !(target == document.body)) {
+        if (target.hasAttribute('phoneid')
+            && !target.querySelector('.card__buy__text--disabled')) {
+            let phoneId = target.getAttribute('phoneId');
+
+            phonesJS.forEach(function(item, i, arr) {
+                if (phonesJS[i].id == phoneId) {
+                    phonesJS[i].addToBasket();
+
+                    target.querySelector('.card__buy__text').classList.add('card__buy__text--disabled');
+                    target.querySelector('.card__buy__text').innerHTML = 'Добавлено';
+                    target.querySelector('.card__buy__icon').classList.add('card__buy__icon--added');
+                    return;
+                }
+            });
+            return;
+        }
+        target = target.parentNode;
+    }
+}
+/*   конец для функции события клика "добавить в корзину" с главной   */
+
+/*   для события клика "добавить в корзину" со страницы товара  */
+function addToBasketFromPhonePage(myEvent){
+    if(!document.querySelector(".card-page__to-basket").classList.contains('card-page__to-basket--added')
+        && !document.querySelector(".card-page__to-basket").classList.contains("card-page__to-basket--disabled")) {
+        let phoneId = myEvent.target.getAttribute('phoneId');
+
+        phonesJS.forEach(function(item, i, arr) {
+            if (phonesJS[i].id == phoneId) {
+                phonesJS[i].addToBasket();
+                myEvent.target.classList.add('card-page__to-basket--added');
+                myEvent.target.innerHTML = 'Добавлено в корзину';
+                return;
+            }
+        });
+    }
+}
+/*   конец для функции события клика "добавить в корзину" со страницы товара   */
 
 
 
@@ -243,17 +247,3 @@ function generateRecommendedList(phoneId, initialList = phonesJS) {
 }
 
 /*   конец генерации рекомендуемого списка   */
-
-
-// /*   css для последней строки   */
-//
-// function helpFlexStyle(phones) {
-//     let restLength = phones.length % 4;
-//     let wrapper = document.querySelector('.card-wrapper');
-//     for (let i = 2; i <= restLength+1; i++) {
-//         let currentElem = wrapper.childNodes[wrapper.childNodes.length - i];
-//         currentElem.style.alignSelf = 'stretch';
-//     }
-// }
-//
-// /*   конец стилей для последней строки   */

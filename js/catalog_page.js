@@ -149,6 +149,11 @@ Promise.all([promiseDB, promisePhotos])
                 document.getElementById('catalog-page__products--holder').innerHTML = tmpl({
                   list: sortedPhones
                 });
+
+                if(document.querySelector(".catalog-page__products")) {
+                    document.querySelector(".catalog-page__products").addEventListener('click', addToBasketFromCatalogPage);
+                }
+                
             } else {
                 document.querySelector('#catalog-page__products--holder').innerHTML = 'Товары не найдены. Попробуйте изменить фильтры.'
             }
@@ -160,30 +165,38 @@ Promise.all([promiseDB, promisePhotos])
 
         /*   обработчик клика "добавить в корзину"   */
 
-        document.querySelector(".catalog-page__products").addEventListener('click', function(event){
-            var target = event.target;
-
-
-            while (!(target.classList.contains("catalog-page__products"))
-                    &&
-                    !(target == document.body)) {
-                if (target.hasAttribute('phoneid')
-                    && !target.childNodes[1].classList.contains("card__buy__text--disabled")) {
-                    let phoneId = target.getAttribute('phoneId');
-
-                    phonesJS.forEach(function(item, i, arr) {
-                        if (phonesJS[i].id == phoneId) {
-                            phonesJS[i].addToBasket();
-                            return;
-                        }
-                    });
-                    return;
-                }
-                target = target.parentNode;
-            }
-        })
+        if(document.querySelector(".catalog-page__products")) {
+            document.querySelector(".catalog-page__products").addEventListener('click', addToBasketFromCatalogPage);
+        }
 
         /*   конец обработчика   */
 
     }
 );
+
+function addToBasketFromCatalogPage(myEvent) {
+        var target = myEvent.target;
+
+
+        while (!target.classList.contains("catalog-page__products")
+                &&
+                !(target == document.body)) {
+            if (target.hasAttribute('phoneid')
+                && !target.querySelector('.card__buy__text--disabled')) {
+                let phoneId = target.getAttribute('phoneId');
+
+                phonesJS.forEach(function(item, i, arr) {
+                    if (phonesJS[i].id == phoneId) {
+                        phonesJS[i].addToBasket();
+
+                        target.querySelector('.card__buy__text').classList.add('card__buy__text--disabled');
+                        target.querySelector('.card__buy__text').innerHTML = 'Добавлено';
+                        target.querySelector('.card__buy__icon').classList.add('card__buy__icon--added');
+                        return;
+                    }
+                });
+                return;
+            }
+            target = target.parentNode;
+        }
+}

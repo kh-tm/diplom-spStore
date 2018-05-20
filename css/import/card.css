@@ -90,14 +90,14 @@
     border-radius: 40%;
 }
 
-.card__buy:hover .card__buy__icon {
+.card__buy:hover .card__buy__icon:not(.card__buy__icon--added) {
     background: url(../../images/basket-icon-black.png) no-repeat center;
     -webkit-background-size: contain;
     background-size: contain;
     background-color: rgba(208, 50, 192, 0);
 }
 
-.card__buy__notAvailable {
-    color: rgba(193, 0, 0, 0.7);
-    visibility: visible;
+.card__buy__icon--added {
+    background-image: url(../../images/check.png);
+    background-color: initial;
 }
