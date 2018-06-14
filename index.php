@@ -7,8 +7,6 @@ include_once "include/head.php";
 
 include_once "include/header.php";
 
-include_once "include/search_row.php";
-
 include_once "include/product_card.php";
 
 include_once "include/reviews.php";

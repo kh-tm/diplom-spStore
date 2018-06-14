@@ -65,7 +65,7 @@ include_once "include/header.php";
             <h2 class="basket-page__subtitle">Выберите способ доставки</h2>
 
             <div class="basket-page__table__row">
-                <label class="basket-page__container">Самовывоз по адресу Большая Красная, 55, Казань, Россия
+                <label class="basket-page__container">Самовывоз по адресу Пример Улицы, Дом, Казань, Россия
                     <input type="radio" checked="checked" name="deliveryMethod" value="pickup">
                     <span class="basket-page__checkmark"></span>
                 </label>

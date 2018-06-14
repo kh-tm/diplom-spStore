@@ -11,7 +11,7 @@ include_once "include/header.php";
 <section class="contacts-page__address container">
     <div class="contacts-page__address__icon-wrapper">Адрес</div>
     <div class="contacts-page__address__text-wrapper">
-        <span class="contacts-page__address__text-row">ул. Большая Красная, 55, Казань, Россия, 420015</span>
+        <span class="contacts-page__address__text-row">ул. Пример Улицы, Дом, Казань, Россия, 420000</span>
         <span class="contacts-page__address__text-row">Офис продаж</span>
     </div>
 </section>

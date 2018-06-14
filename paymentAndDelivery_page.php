@@ -6,7 +6,7 @@ include_once "include/header.php";
 
 ?>
 
-<h1 class="page-title PaD-page__title container">Подробности гарантийного обслуживания</h1>
+<h1 class="page-title PaD-page__title container">Способы оплаты покупки</h1>
 
 <section class="PaD-page__info container">
     <p>Оплата товара осуществляется наличными</p>

@@ -7,14 +7,24 @@ const initialUrl = new Url();
     /*   index   */
 
     function indexPageRendering(thisObject) {
-        let tmpl = `<h2 class="card__title">Популярные смартфоны</h2>
+        let tmpl = `
+        <form class="search-row container">
+            <input class="search-row__input" type="search" name="q" placeholder="Поиск по названию" autocomplete="off">
+            <input class="search-row__btn" type="submit" value="Найти"></p>
+        </form>
+
+        <h2 class="card__title">Популярные смартфоны</h2>
         <div class="card-wrapper">
-        <% for(var i = 0; i < list.length; i++) { %>
+        <% for(var i = 0; (i < list.length) && (i < 4); i++) { %>
             <div class="card">
                 <a href="./?phoneid=<%= list[i].id %>">
                     <img class="card__image" src="<%= 'images/photos/' + list[i].id + '/' + list[i].photos[0] %>"></img>
                 </a>
-                <div class="card__name"><%=list[i].fullName%></div>
+                <div class="card__name">
+                    <a href="./?phoneid=<%= list[i].id %>">
+                        <%=list[i].fullName%>
+                    </a>
+                </div>
                 <div class="card__cost"><%=list[i].price  + ' ₽'%></div>
                 <div class="card__buy" phoneId="<%=list[i].id%>">
                     <% if(list[i].stock != 0) { %>

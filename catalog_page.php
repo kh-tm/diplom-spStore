@@ -20,7 +20,11 @@ include_once "include/header.php";
                 <a href="./?phoneid=<%= list[i].id %>">
                     <img class="card__image" src="<%= 'images/photos/' + list[i].id + '/' + list[i].photos[0] %>"></img>
                 </a>
-                <div class="card__name"><%=list[i].fullName%></div>
+                <div class="card__name">
+                    <a href="./?phoneid=<%= list[i].id %>">
+                        <%=list[i].fullName%>
+                    </a>
+                </div>
                 <div class="card__cost"><%=list[i].price  + ' ₽'%></div>
                 <div class="card__buy" phoneId="<%=list[i].id%>">
                     <% if(list[i].stock != 0) { %>
