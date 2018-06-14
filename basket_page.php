@@ -36,7 +36,7 @@ include_once "include/header.php";
             <% for(var i = 0; i < list.length; i++) { %>
             <div phoneId="<%=list[i].id%>" class="basket-page__table__row basket-page__table__product">
                 <div class="basket-page__table__photo">
-                    <a href="card_page.php">
+                    <a href="./?phoneid=<%= list[i].id %>">
                         <img src="<%= 'images/photos/' + list[i].id + '/' + list[i].photos[0] %>"  alt="">
                     </a>
                 </div>
